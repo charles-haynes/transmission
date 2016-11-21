@@ -38,6 +38,8 @@ type arguments struct {
 	DownloadDir  string       `json:"download-dir,omitempty"`
 	MetaInfo     string       `json:"metainfo,omitempty"`
 	Filename     string       `json:"filename,omitempty"`
+	Path		 string		  `json:"path,omitempty"`
+	Name		 string		  `json:"name,omitempty"`
 	TorrentAdded TorrentAdded `json:"torrent-added"`
 	// Stats
 	ActiveTorrentCount int             `json:"activeTorrentCount"`
@@ -466,4 +468,24 @@ func (ac *TransmissionClient) sendCommand(cmd Command) (response Command, err er
 		return
 	}
 	return response, nil
+}
+
+func (ac *TransmissionClient) Add(fn string, dndir string) (TorrentAdded, error) {
+	cmd := NewAddCmdByFilename(fn)
+	cmd.SetDownloadDir(dndir)
+	add, err := ac.ExecuteAddCommand(cmd)
+	return add, err
+}
+
+func (ac *TransmissionClient) Rename(id int, sn, dn string) (resp Command, err error) {
+	cmd := Command{Method: "torrent-rename-path"}
+	cmd.Arguments.Ids = []int{id}
+	cmd.Arguments.Path = sn
+	cmd.Arguments.Name = dn
+
+	resp, err = ac.sendCommand(cmd)
+	if err != nil {
+		return
+	}
+	return	
 }
