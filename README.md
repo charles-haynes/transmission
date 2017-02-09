@@ -3,7 +3,7 @@ Golang lib for Transmission API
 
 ### Installation
 
-    $ go get github.com/tubbebubbe/transmission
+    $ go get github.com/matthazinski/transmission
 
 ### Usage
 ```go
@@ -12,11 +12,14 @@ package main
 import (
 	"log"
 
-	"github.com/tubbebubbe/transmission"
+	"github.com/matthazinski/transmission"
 )
 
 func main() {
-	client := transmission.New("http://127.0.0.1:9091", "", "")
+	client, err := transmission.New("http://127.0.0.1:9091/transmission/rpc", "admin", "hunter2")
+    if err != nil {
+        log.Panic(err)
+    }
 
 	torrents, err := client.GetTorrents()
 	if err != nil {
