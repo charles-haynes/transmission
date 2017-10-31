@@ -72,6 +72,18 @@ type tracker struct {
 	Tire     int    `json:"tire"`
 }
 
+type file struct {
+	BytesCompleted uint64 `json:"bytesCompleted"`
+	Length         uint64 `json:"length"`
+	Name           string `json:"name"`
+}
+
+type fileStat struct {
+	BytesCompleted uint64   `json:"BytesCompleted"`
+	Wanted         bool     `json:"wanted"`
+	Priority       Priority `json:"priority"`
+}
+
 //TorrentAdded data returning
 type TorrentAdded struct {
 	HashString string `json:"hashString"`
@@ -135,28 +147,8 @@ type Torrent struct {
 	Trackers       []tracker     `json:"trackers"`
 	Error          int           `json:"error"`
 	ErrorString    string        `json:"errorString"`
-}
-
-// Status translates the status of the torrent
-func (t *Torrent) TorrentStatus() string {
-	switch t.Status {
-	case StatusStopped:
-		return "Stopped"
-	case StatusCheckPending:
-		return "Check waiting"
-	case StatusChecking:
-		return "Checking"
-	case StatusDownloadPending:
-		return "Download waiting"
-	case StatusDownloading:
-		return "Downloading"
-	case StatusSeedPending:
-		return "Seed waiting"
-	case StatusSeeding:
-		return "Seeding"
-	default:
-		return "unknown"
-	}
+	Files          []file        `json:"files"`
+	FileStats      []fileStat    `json:"fileStats"`
 }
 
 // Ratio returns the upload ratio of the torrent
