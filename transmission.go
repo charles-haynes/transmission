@@ -10,14 +10,26 @@ import (
 	"time"
 )
 
+//go:generate stringer -type=Status
+type Status int
+
 const (
-	StatusStopped = iota
-	StatusCheckPending
-	StatusChecking
-	StatusDownloadPending
-	StatusDownloading
-	StatusSeedPending
-	StatusSeeding
+	Stopped Status = iota
+	CheckPending
+	Checking
+	DownloadPending
+	Downloading
+	SeedPending
+	Seeding
+)
+
+//go:generate stringer -type=Priority
+type Priority int8
+
+const (
+	Low Priority = iota - 1
+	Normal
+	High
 )
 
 //TransmissionClient to talk to transmission
@@ -39,8 +51,8 @@ type arguments struct {
 	DownloadDir  string       `json:"download-dir,omitempty"`
 	MetaInfo     string       `json:"metainfo,omitempty"`
 	Filename     string       `json:"filename,omitempty"`
-	Path		 string		  `json:"path,omitempty"`
-	Name		 string		  `json:"name,omitempty"`
+	Path         string       `json:"path,omitempty"`
+	Name         string       `json:"name,omitempty"`
 	TorrentAdded TorrentAdded `json:"torrent-added"`
 	// Stats
 	ActiveTorrentCount int             `json:"activeTorrentCount"`
@@ -104,7 +116,7 @@ func (s *Stats) CumulativeActiveTime() string {
 type Torrent struct {
 	ID             int           `json:"id"`
 	Name           string        `json:"name"`
-	Status         int           `json:"status"`
+	Status         Status        `json:"status"`
 	AddedDate      int64         `json:"addedDate"`
 	LeftUntilDone  uint64        `json:"leftUntilDone"`
 	SizeWhenDone   uint64        `json:"sizeWhenDone"`
@@ -533,5 +545,5 @@ func (ac *TransmissionClient) Rename(id int, sn, dn string) (resp Command, err e
 	if err != nil {
 		return
 	}
-	return	
+	return
 }
