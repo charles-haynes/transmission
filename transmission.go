@@ -84,6 +84,54 @@ type fileStat struct {
 	Priority       Priority `json:"priority"`
 }
 
+type trackerStat struct {
+	Announce              string `json:"announce"`
+	AnnounceState         int    `json:"announceState"`
+	DownloadCount         int    `json:"downloadCount"`
+	HasAnnounced          bool   `json:"hasAnnounced"`
+	HasScraped            bool   `json:"hasScraped"`
+	Host                  string `json:"host"`
+	ID                    uint64 `json:"id"`
+	IsBackup              bool   `json:"isBackup"`
+	LastAnnouncePeerCount int    `json:"lastAnnouncePeerCount"`
+	LastAnnounceResult    string `json:"lastAnnounceResult"`
+	LastAnnounceStartTime int64  `json:"lastAnnounceStartTime"`
+	LastAnnounceSucceeded bool   `json:"lastAnnounceSucceeded"`
+	LastAnnounceTime      int64  `json:"lastAnnounceTime"`
+	LastAnnounceTimedOut  bool   `json:"lastAnnounceTimedOut"`
+	LastScrapeResult      string `json:"lastScrapeResult"`
+	LastScrapeStartTime   int64  `json:"lastScrapeStartTime"`
+	LastScrapeSucceeded   bool   `json:"lastScrapeSucceeded"`
+	LastScrapeTime        int64  `json:"lastScrapeTime"`
+	LastScrapeTimedOut    int64  `json:"lastScrapeTimedOut"`
+	LeecherCount          int    `json:"leecherCount"`
+	NextAnnounceTime      int64  `json:"nextAnnounceTime"`
+	NextScrapeTime        int64  `json:"nextScrapeTime"`
+	Scrape                string `json:"scrape"`
+	ScrapeState           int    `json:"scrapeState"`
+	SeederCount           int    `json:"seederCount"`
+	Tier                  int    `json:"tier"`
+}
+
+type peer struct {
+	RateToPeer         int     `json:"rateToPeer"`
+	RateToClient       int     `json:"rateToClient"`
+	Progress           float64 `json:"progress"`
+	Port               int     `json:"port"`
+	PeerIsInterested   bool    `json:"peerIsInterested"`
+	PeerIsChoked       bool    `json:"peerIsChoked"`
+	IsUploadingTo      bool    `json:"isUploadingTo"`
+	IsUTP              bool    `json:"isUTP"`
+	IsIncoming         bool    `json:"isIncoming"`
+	IsEncrypted        bool    `json:"isEncrypted"`
+	IsDownloadingFrom  bool    `json:"isDownloadingFrom"`
+	Flags              string  `json:"flagStr"`
+	ClientName         string  `json:"clientName"`
+	ClientIsInterested bool    `json:"clientIsInterested"`
+	ClientIsChoked     bool    `json:"clientIsChoked"`
+	Address            string  `json:"address"`
+}
+
 //TorrentAdded data returning
 type TorrentAdded struct {
 	HashString string `json:"hashString"`
@@ -149,6 +197,8 @@ type Torrent struct {
 	ErrorString    string        `json:"errorString"`
 	Files          []file        `json:"files"`
 	FileStats      []fileStat    `json:"fileStats"`
+	TrackerStats   []trackerStat `json:"trackerStats"`
+	Peers          []peer        `json:"peers"`
 }
 
 // Ratio returns the upload ratio of the torrent
