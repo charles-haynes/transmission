@@ -199,6 +199,7 @@ type Torrent struct {
 	FileStats      []fileStat    `json:"fileStats"`
 	TrackerStats   []trackerStat `json:"trackerStats"`
 	Peers          []peer        `json:"peers"`
+	Hash           string        `json:"hashString"`
 }
 
 // Ratio returns the upload ratio of the torrent
